@@ -13,5 +13,11 @@
          xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 https://pmd.sourceforge.io/ruleset_2_0_0.xsd">
     <description>PMD quickstart, with Project Pulse's decisions.</description>
     <rule ref="rulesets/java/quickstart.xml">
+        <!-- D2, turned off: UnnecessaryConstructor. Its fix deletes the explicit no-arg constructor of a JPA entity.
+             The implicit one that replaces it disappears as soon as anyone adds a second constructor, and Hibernate
+             then fails at runtime, not at compile time ("No default constructor for entity"). backend/CLAUDE.md
+             requires explicit constructors in entities. UncommentedEmptyConstructor stays on: each empty
+             constructor carries a comment saying why it exists. -->
+        <exclude name="UnnecessaryConstructor"/>
     </rule>
 </ruleset>
