@@ -90,8 +90,9 @@ onMounted(async () => {
 
   if (allWeeks.value.length > 0) {
     // allWeeks is sorted by weekNumber, so the first and last weeks are the first and last elements
-    firstWeek.value = allWeeks.value[0]
-    lastWeek.value = allWeeks.value[allWeeks.value.length - 1]
+    // Non-null: the length check above guarantees both indexes exist
+    firstWeek.value = allWeeks.value[0]!
+    lastWeek.value = allWeeks.value[allWeeks.value.length - 1]!
   }
 })
 
@@ -135,7 +136,8 @@ const findWeekIndex = () => {
 const goToPreviousWeek = () => {
   const index = findWeekIndex()
   if (index > 0) {
-    selectedWeekNumber.value = allWeeks.value[index - 1].weekNumber
+    // Non-null: index came from findIndex on allWeeks and index > 0, so index - 1 is in range
+    selectedWeekNumber.value = allWeeks.value[index - 1]!.weekNumber
     emit('search')
   }
 }
@@ -143,7 +145,8 @@ const goToPreviousWeek = () => {
 const goToNextWeek = () => {
   const index = findWeekIndex()
   if (index >= 0 && index < allWeeks.value.length - 1) {
-    selectedWeekNumber.value = allWeeks.value[index + 1].weekNumber
+    // Non-null: index came from findIndex on allWeeks and index < length - 1, so index + 1 is in range
+    selectedWeekNumber.value = allWeeks.value[index + 1]!.weekNumber
     emit('search')
   }
 }

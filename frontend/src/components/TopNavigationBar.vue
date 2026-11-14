@@ -71,7 +71,15 @@ const userInfoStore = useUserInfoStore()
 const settingsStore = useSettingsStore()
 
 import { inject } from 'vue'
-const { isCollapse, toggleCollapse } = inject('menuCollapse')
+import { menuCollapseKey } from '@/components/menuCollapse'
+// Dashboard.vue is the only parent and always provides the key, so a missing provider is a programming error
+const menuCollapse = inject(menuCollapseKey)
+if (!menuCollapse) {
+  throw new Error(
+    'TopNavigationBar must be rendered inside Dashboard, which provides menuCollapseKey'
+  )
+}
+const { isCollapse, toggleCollapse } = menuCollapse
 
 const refresh = () => {
   router.go(0)

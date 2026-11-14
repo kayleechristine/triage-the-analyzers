@@ -11,6 +11,7 @@ public class WeeklyPeerEvaluationReport {
 
 
     public WeeklyPeerEvaluationReport() {
+        // EvaluationService creates this empty and fills it through setters
     }
 
     public String getSectionName() {
