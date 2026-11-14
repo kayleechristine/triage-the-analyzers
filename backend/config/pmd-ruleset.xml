@@ -19,5 +19,10 @@
              requires explicit constructors in entities. UncommentedEmptyConstructor stays on: each empty
              constructor carries a comment saying why it exists. -->
         <exclude name="UnnecessaryConstructor"/>
+        <!-- D4, turned off: GuardLogStatement. Every log call uses SLF4J {} placeholders, which format the message
+             only when the level is enabled, and every argument at the flagged sites is a field read, a getter, or
+             a collection size, so a guard saves nothing. Check: ReminderService, WeeklyReminderScheduler,
+             DocumentTemplateRegistry, AuthController. -->
+        <exclude name="GuardLogStatement"/>
     </rule>
 </ruleset>
