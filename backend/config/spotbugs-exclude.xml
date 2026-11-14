@@ -7,4 +7,16 @@
 
      Unlike the baseline, this file may grow, but every entry is a reviewed decision. -->
 <FindBugsFilter>
+    <!-- D1, turned off: EI_EXPOSE_REP and EI_EXPOSE_REP2. All 219 baselined findings fall in four kinds of class, and
+         none of them owns an invariant a shared reference could break:
+         1. JPA @Entity classes, and MyUserPrincipal, which wraps one for Spring Security. Their associations must be
+            the same objects Hibernate manages: a defensive copy of a @OneToMany list detaches it from dirty checking
+            and orphanRemoval, and a copied @ManyToOne is a second, unmanaged instance of a row.
+         2. Spring singletons (@RestController, @Service, @Component) holding constructor-injected beans, which are
+            shared by design.
+         3. DTOs and records built per request by a converter or service, serialized by Jackson, and discarded.
+         4. DocumentTemplate, loaded once from YAML by DocumentTemplateRegistry. Its only two callers,
+            DocumentService.applyTemplate and DataInitializer.applyTemplate, iterate getSections() and never modify it.
+         Check: every class named in the removed baseline entries is one of the four. -->
+    <Match><Bug pattern="EI_EXPOSE_REP,EI_EXPOSE_REP2"/></Match>
 </FindBugsFilter>
